@@ -1,0 +1,91 @@
+@baseUrl = http://localhost:3000
+
+### Login usern°2
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+  "email": "ylann.mommens@student.vinci.be",
+  "password": "password"
+}
+
+> {%
+  client.global.set("ylannToken", response.body.token);
+%}
+
+### Get my last stages
+GET {{baseUrl}}/stages
+Authorization: {{ylannToken}}
+
+### Login user 9
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+  "email" : "Carole.skile@student.vinci.be",
+  "password" : "mdpuser.1"
+}
+
+> {%
+  client.global.set("user9Token", response.body.token);
+%}
+
+### Create a stage
+POST {{baseUrl}}/stages/create
+Authorization: {{user9Token}}
+Content-Type: application/json
+
+{
+  "internshipProject" : "Stage de test",
+  "internshipSupervisorId" : 3,
+  "contact" : 12,
+  "signatureDate" : "2021-01-01"
+}
+
+
+> {%
+  client.global.set("user8Token", response.body.token);
+%}
+
+### Change internship project
+PUT {{baseUrl}}/stages/1
+Content-Type: application/json
+Authorization: {{user8Token}}
+
+{
+  "internshipProject" : "Nouveau sujet",
+  "numVersion" : "1"
+}
+
+### Login usern°2
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+  "email": "yassin.khelifa@vinci.be",
+  "password": "password"
+}
+
+> {%
+  client.global.set("ylannToken", response.body.token);
+%}
+
+### get stats stages
+GET {{baseUrl}}/stages/stats
+Authorization: {{user9Token}}
+
+### Login as a teacher
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+  "email": "raphael.baroni@vinci.be",
+  "password": "Prof24,z"
+}
+> {%
+  client.global.set("raphaelToken", response.body.token);
+%}
+
+### Get one user's stage
+GET {{baseUrl}}/stages/5/getstage
+Authorization: {{raphaelToken}}

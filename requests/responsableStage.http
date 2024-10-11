@@ -1,0 +1,35 @@
+@baseUrl = http://localhost:3000
+
+### Login usern°2
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+  "email": "Caroline.line@student.vinci.be",
+  "password": "mdpuser.1"
+}
+
+> {%
+  client.global.set("ylannToken", response.body.token);
+%}
+
+
+### Create a responsableStage
+POST {{baseUrl}}/responsableStage/create
+Authorization: {{ylannToken}}
+Content-Type: application/json
+
+{
+  "lastName": "Doe",
+  "firstName": "John",
+  "phoneNumber": "0123456789",
+  "email": "doe.john@hotmail.com",
+  "enterprise": 1
+}
+
+### GET all responsablesStage
+GET {{baseUrl}}/responsableStage/all
+Authorization: {{ylannToken}}
+
+
+

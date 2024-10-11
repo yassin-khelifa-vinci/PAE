@@ -1,0 +1,73 @@
+@baseUrl = http://localhost:3000
+
+### Login with default user credentials
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+  "email": "raphael.baroni@vinci.be",
+  "password": "null"
+}
+
+> {%
+  client.global.set("ibrahimToken", response.body.token);
+%}
+
+### Refresh token
+GET {{baseUrl}}/auths/refresh
+Authorization: {{ibrahimToken}}
+
+### Register a new user
+POST {{baseUrl}}/auths/register
+Content-Type: application/json
+
+{
+  "email": "test7545.test@vinci.be",
+  "password": "password",
+  "firstName": "test",
+  "lastName": "test",
+  "role": "ADMINISTRATIVE",
+  "phoneNumber": "123456789"
+}
+
+### Login
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+  "email": "test7545.test@vinci.be",
+  "password": "password2"
+}
+
+> {%
+  client.global.set("testToken", response.body.token);
+%}
+
+### Edit data of an existing user
+PUT {{baseUrl}}/auths/edit
+Content-Type: application/json
+Authorization: {{ibrahimToken}}
+
+{
+  "phoneNumber": "8713019",
+  "currentPassword": "Prof24,z",
+  "newPassword": "test"
+}
+
+### Get all users
+GET {{baseUrl}}/auths/all
+Content-Type: application/json
+Authorization: {{ibrahimToken}}
+
+### update user
+PUT {{baseUrl}}/auths
+Content-Type: application/json
+Authorization: {{ibrahimToken}}
+
+{
+  "phoneNumber": "8713019",
+  "currentPassword": "Prof24,s",
+    "newPassword": "Prof24,A",
+  "versionNumber": 7
+}
+

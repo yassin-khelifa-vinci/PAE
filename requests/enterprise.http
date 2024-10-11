@@ -1,0 +1,88 @@
+@baseUrl = http://localhost:3000
+
+## Try to get information about an enterprise when authenticated
+### Login with default user credentials
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+  "email": "Caroline.line@student.vinci.be",
+  "password": "mdpuser.1"
+}
+
+> {%
+  client.global.set("ibrahimToken", response.body.token);
+%}
+
+### Get informatin about enterprise number 1
+GET {{baseUrl}}/enterprise/1/info
+Authorization: {{baroniToken}}
+
+
+## Try to get information about an enterprise without being authenticated
+### Get info without being authenticated
+GET {{baseUrl}}/enterprise/1/info
+
+### Get all enterprise
+GET {{baseUrl}}/enterprise
+Authorization: {{ibrahimToken}}
+
+### Get all enterprise withour being authenticated
+GET {{baseUrl}}/enterprise
+
+## Try to blacklist an enterprise when authenticated
+### Login a teacher
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+  "email": "raphael.baroni@vinci.be",
+  "password": "Prof24,z"
+}
+
+> {%
+  client.global.set("baroniToken", response.body.token);
+%}
+### Blacklist enterprise number 1
+POST {{baseUrl}}/enterprise/1/blacklist
+Authorization: {{baroniToken}}
+Content-Type: application/json
+
+{
+  "blacklistReason": "This enterprise is not respecting the rules",
+  "versionNumber": "1"
+}
+
+### add a new enterprise
+POST {{baseUrl}}/enterprise
+Authorization: {{ibrahimToken}}
+Content-Type: application/json
+
+{
+  "tradeName": "Enterprise 3",
+  "street": "Rue de la rue",
+  "streetNumber": "1",
+  "postalCode": "1000",
+  "city": "Bruxelles",
+  "country": "Belgique",
+  "email": ""
+}
+
+### Login a teacher
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+  "email": "yassin.khelifa@vinci.be",
+  "password": "password"
+}
+
+> {%
+  client.global.set("baroniToken", response.body.token);
+%}
+
+### get statistics
+GET {{baseUrl}}/enterprise/stats
+Authorization: {{baroniToken}}
+
+

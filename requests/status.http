@@ -1,0 +1,55 @@
+@baseUrl = http://localhost:3000
+
+
+### Login with default user credentials
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+  "email": "Carole.skile@student.vinci.be",
+  "password": "mdpuser.1"
+}
+
+> {%
+  client.global.set("ibrahimToken", response.body.token);
+%}
+
+
+
+### change status of a contactDTO to accepted
+POST {{baseUrl}}/contact/9/accepted
+Authorization: {{ibrahimToken}}
+Content-Type: application/json
+
+    {
+        "versionNumber" : "43"
+    }
+
+### change status of a contactDTO to admitted
+POST {{baseUrl}}/contact/9/admitted
+Authorization: {{ibrahimToken}}
+Content-Type: application/json
+
+{
+    "meetingPlace" : "Dans l'enterprise",
+    "versionNumber" : "42"
+}
+
+### change status of a contactDTO to Unsupervised
+POST {{baseUrl}}/contact/9/unsupervised
+Authorization: {{ibrahimToken}}
+Content-Type: application/json
+
+{
+    "versionNumber" : "14"
+}
+
+### change status of a contactDTO to TUNED_DOWN
+POST {{baseUrl}}/contact/9/turnedDown
+Authorization: {{ibrahimToken}}
+Content-Type: application/json
+
+{
+    "reasonRefusal" : "Pas intéressé",
+    "versionNumber" : "13"
+}

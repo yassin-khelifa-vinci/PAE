@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" xmlns="http://logging.apache.org/log4j/2.0/config">
+
+  <Appenders>
+    <Console name="stdout" target="SYSTEM_OUT">
+      <!-- Utilisation d'ANSI escape codes pour la coloration des logs -->
+      <PatternLayout disableAnsi="false" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight{%-5level %m%n}{FATAL=red, ERROR=red, WARN=yellow, INFO=green, DEBUG=blue, TRACE=blue} " />
+    </Console>
+
+    <RollingFile fileName="logs/app.log" filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz" name="file">
+      <DefaultRolloverStrategy max="10"/>
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %m%n" />
+      <Policies>
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+      </Policies>
+    </RollingFile>
+  </Appenders>
+
+  <Loggers>
+    <Root level="info">
+      <AppenderRef ref="stdout" />
+      <AppenderRef ref="file" />
+    </Root>
+  </Loggers>
+</Configuration>

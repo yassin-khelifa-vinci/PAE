@@ -1,0 +1,79 @@
+@baseUrl = http://localhost:3000
+
+### Login with default user credentials
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+  "email": "Caroline.line@student.vinci.be",
+  "password": "mdpuser.1"
+}
+
+> {%
+  client.global.set("carolineToken", response.body.token);
+%}
+
+### Refresh token
+GET {{baseUrl}}/auths/refresh
+Authorization: {{carolineToken}}
+
+### Get all contacts
+GET {{baseUrl}}/contact/all
+Authorization: {{ibrahimToken}}
+
+### Register a new user
+POST {{baseUrl}}/auths/register
+Content-Type: application/json
+
+{
+  "email": "test.test@student.vinci.be",
+  "password": "password",
+  "firstName": "test",
+  "lastName": "test",
+  "role": "STUDENT",
+  "phoneNumber": "123456789"
+}
+
+### Login with test credentials
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+  "email": "test.test@student.vinci.be",
+  "password": "password"
+}
+
+> {%
+  client.global.set("contactTestToken", response.body.token);
+%}
+
+### Create a contact
+POST {{baseUrl}}/contact
+Content-Type: application/json
+Authorization: {{contactTestToken}}
+
+{
+  "idEnterprise": 3
+}
+
+### Login as a teacher
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+  "email": "raphael.baroni@vinci.be",
+ "password": "Prof24,z"
+}
+> {%
+  client.global.set("raphaelToken", response.body.token);
+%}
+
+### Get enterprise Contacts
+GET {{baseUrl}}/contact/enterprise/2
+Authorization: {{raphaelToken}}
+
+### Get all contacts
+GET {{baseUrl}}/contact/5/contact
+Content-Type: application/json
+Authorization: {{raphaelToken}}
+
